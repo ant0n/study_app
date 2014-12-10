@@ -14,4 +14,9 @@ FactoryGirl.define do
     end
   end
 
+  factory :invalid_question, class: 'Question' do
+    title nil
+    body 'ttt'
+  end
+
 end
