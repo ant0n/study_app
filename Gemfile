@@ -29,6 +29,10 @@ gem 'spring',        group: :development
 gem 'annotate', '~> 2.6.5'
 gem 'slim-rails'
 
+gem "twitter-bootstrap-rails"
+
+gem 'devise'
+
 group :test, :development do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
@@ -36,6 +40,8 @@ end
 
 group :test do
   gem 'shoulda-matchers', require: false
+  gem 'capybara'
+  gem 'launchy'
 end
 
 # Use ActiveModel has_secure_password

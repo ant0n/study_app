@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  root to: 'questions#index'
+
+  devise_for :users
+
   resources :questions
 
   resources :answers, except: [:index, :show, :new, :edit]

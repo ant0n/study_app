@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, :type => :controller do
   describe 'POST #create' do
+    sign_in_user
 
     context 'with valid attributes' do
       let(:answer) { attributes_for(:answer) }
@@ -33,6 +34,8 @@ RSpec.describe AnswersController, :type => :controller do
   end
 
   describe 'PATCH #update' do
+    sign_in_user
+
     let(:answer) { create(:answer) }
 
     context 'valid attributes' do
@@ -69,6 +72,7 @@ RSpec.describe AnswersController, :type => :controller do
   end
 
   describe 'DELETE #destroy' do
+    sign_in_user
 
     let(:answer) { create(:answer) }
     before { answer }

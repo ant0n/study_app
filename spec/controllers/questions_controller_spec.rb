@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, :type => :controller do
- describe 'GET #index' do
+  sign_in_user
+
+  describe 'GET #index' do
    let(:questions) { create_pair(:question) }
 
    before { get :index }
@@ -87,6 +89,7 @@ RSpec.describe QuestionsController, :type => :controller do
   end
 
   describe 'PATCH #update' do
+
     let(:question) { create(:question) }
 
     context 'valid attributes' do
