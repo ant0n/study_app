@@ -1,10 +1,12 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!
   before_action :get_answer, only: [:update, :destroy]
 
   def create
     @answer = Answer.new(answer_params)
     if @answer.save
-      render nothing: true, status: 202
+      flash[:success] = 'Answer successfully created'
+      redirect_to @answer.question
     else
       render nothing: true, status: 400
     end
@@ -31,6 +33,6 @@ class AnswersController < ApplicationController
     end
 
     def answer_params
-      params.require(:answer).permit(:title, :body)
+      params.require(:answer).permit(:title, :body, :question_id)
     end
 end

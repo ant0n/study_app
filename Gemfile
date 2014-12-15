@@ -30,6 +30,7 @@ gem 'annotate', '~> 2.6.5'
 gem 'slim-rails'
 
 gem "twitter-bootstrap-rails"
+gem 'simple_form'
 
 gem 'devise'
 
