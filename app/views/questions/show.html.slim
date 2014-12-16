@@ -1,6 +1,8 @@
-div.question
-  h2= @question.title
-  p= @question.body
+div.panel.panel-primary
+  div.panel-heading
+    h2.panel-title= @question.title
+  div.panel-body
+    p= @question.body
 
 div.answers
   =render @question.answers

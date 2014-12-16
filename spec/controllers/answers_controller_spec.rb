@@ -5,7 +5,8 @@ RSpec.describe AnswersController, :type => :controller do
     sign_in_user
 
     context 'with valid attributes' do
-      let(:answer) { attributes_for(:answer) }
+      let(:question) {create(:question)}
+      let(:answer) { attributes_for(:answer, question_id: question.id) }
 
       it 'saves the new answer in db' do
         expect{post :create, answer: answer}.to change(Answer, :count).by(1)
@@ -13,7 +14,7 @@ RSpec.describe AnswersController, :type => :controller do
 
       it 'responds with Accepted status code' do
         post :create, answer: answer
-        expect(response.status).to eq 202
+        expect(response).to redirect_to question_path(question)
       end
 
     end
