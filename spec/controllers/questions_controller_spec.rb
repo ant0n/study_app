@@ -9,7 +9,7 @@ RSpec.describe QuestionsController, :type => :controller do
    before { get :index }
 
    it 'populates an array of all question' do
-     expect(assigns(:questions)).to match_array questions
+     expect(assigns(:questions)).to include *questions
    end
 
    it 'render index view' do
