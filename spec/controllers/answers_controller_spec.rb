@@ -48,8 +48,7 @@ RSpec.describe AnswersController, :type => :controller do
 
       it 'changes answer attributes' do
         patch :update, id: answer, answer: { body: 'new body'}
-        answer.reload
-        expect(answer.body).to eq 'new body'
+        expect(answer.reload.body).to eq 'new body'
       end
 
       it 'respond  with Accepted' do
@@ -62,8 +61,7 @@ RSpec.describe AnswersController, :type => :controller do
       before { patch :update, id: answer, answer: { body: nil} }
 
       it 'does not change answer attributes' do
-        answer.reload
-        expect(answer.body).to eq 'MyText'
+        expect(answer.reload.body).to eq 'MyText'
       end
 
       it 'respond with Bad Request' do
