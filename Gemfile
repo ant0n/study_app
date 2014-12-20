@@ -32,7 +32,11 @@ gem 'slim-rails'
 gem "twitter-bootstrap-rails"
 gem 'simple_form'
 
+#authentication
 gem 'devise'
+
+#autorisation
+gem 'pundit'
 
 group :test, :development do
   gem 'rspec-rails'

@@ -3,11 +3,13 @@ class AnswersController < ApplicationController
   before_action :get_answer, only: [:update, :destroy]
 
   def create
-    @answer = Answer.new(answer_params)
-    if @answer.save
-      flash[:success] = 'Answer successfully created'
-      redirect_to @answer.question
-    else
+    @question      = Question.find(params[:question_id])
+    # как лучше, так
+    #@answer        = @question.answers.build(answer_params.merge!({author_id: current_user.id}))
+    # или так
+    @answer        = @question.answers.build(answer_params)
+    @answer.author = current_user
+    unless @answer.save
       render nothing: true, status: 400
     end
   end
@@ -33,6 +35,6 @@ class AnswersController < ApplicationController
     end
 
     def answer_params
-      params.require(:answer).permit(:body, :question_id)
+      params.require(:answer).permit(:body)
     end
 end

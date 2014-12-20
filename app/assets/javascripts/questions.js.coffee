@@ -3,6 +3,10 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 jQuery ->
-  $('.new_answer').click (e) ->
-    e.preventDefault()
-    $('.create_answer').show()
+  ready = ->
+    $('.new_answer').click (e) ->
+      e.preventDefault()
+      $('.create_answer').show()
+
+  $(document).ready(ready)
+  $(document).on('page:load', ready)

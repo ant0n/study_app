@@ -6,7 +6,7 @@ class QuestionsController < ApplicationController
     @questions = Question.all
   end
 
-  def show;  end
+  def show; end
 
   def new
     @question = Question.new()
@@ -15,7 +15,8 @@ class QuestionsController < ApplicationController
   def edit; end
 
   def create
-    @question = Question.new(question_params)
+    @question        = Question.new(question_params)
+    @question.author = current_user
     if @question.save
       flash[:success] = 'Question successfully created'
       redirect_to question_path(@question)
