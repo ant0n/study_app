@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :comments
-  has_many :answers
+  has_many :questions, foreign_key: :author_id
+  has_many :answers, foreign_key: :author_id
 
 end

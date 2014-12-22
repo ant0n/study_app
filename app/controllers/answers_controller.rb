@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :get_answer, only: [:update, :destroy]
+  before_action :get_answer_and_check_author, only: [:update, :destroy]
 
   def create
     @question      = Question.find(params[:question_id])
@@ -9,17 +9,12 @@ class AnswersController < ApplicationController
     # или так
     @answer        = @question.answers.build(answer_params)
     @answer.author = current_user
-    unless @answer.save
-      render nothing: true, status: 400
-    end
+    @answer.save
   end
 
   def update
-    if @answer.update(answer_params)
-      render nothing: true, status: 202
-    else
-      render nothing: true, status: 400
-    end
+    @answer.update(answer_params)
+    @answer.reload if @answer.errors.present?
   end
 
   def destroy
@@ -30,8 +25,12 @@ class AnswersController < ApplicationController
 
   private
 
-    def get_answer
+    def get_answer_and_check_author
       @answer = Answer.find(params[:id])
+      unless @answer.author == current_user
+        @answer.errors.add :author_id, 'only can modify answer'
+        respond_to { |f| f.js }
+      end
     end
 
     def answer_params

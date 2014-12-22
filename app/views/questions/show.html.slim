@@ -5,14 +5,10 @@ div.panel.panel-primary
     p= @question.body
 
 div.answers
-  =render @question.answers if @question.answers.any?
+  = render @question.answers
 
-div.new_answer
+div.add_answer
   =link_to 'Add answer', '#'
 
 
-= simple_form_for [@question, @question.answers.build], html: {class: 'form-horizontal create_answer', style: 'display: none'}, remote: true do |f|
-  = f.error_notification
-
-  =f.input :body
-  =f.submit
+= render 'answers/form'

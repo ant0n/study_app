@@ -1,1 +1,11 @@
-$('.answers').append('<%= j =render @question.answers.last %>')
+<% if @answer.errors.present? %>
+    $('#new_answer').html('<%= j render 'form' %>');
+<% else %>
+    $('.answers').append('<%= j render @question.answers.last %>');
+
+    var elems = $('.form-group');
+    if (elems.hasClass('has-error')) elems.removeClass('has-error').find('.help-block').remove();
+
+    $('#answer_body').val('');
+    $('#new_answer').hide();
+<% end %>

@@ -26,47 +26,37 @@ RSpec.describe AnswersController, :type => :controller do
       it 'does not save answer' do
         expect {post :create, answer: invalid_answer, question_id: question, format: :js}.to_not change(Answer, :count)
       end
-
-      it 'respond with Bad Request status code' do
-        post :create, answer: invalid_answer, question_id: question, format: :js
-        expect(response.status).to eq 400
-      end
-
     end
   end
 
   describe 'PATCH #update' do
     sign_in_user
     let(:question) {create(:question)}
-    let(:answer) { create(:answer) }
+    let(:answer) { create(:answer, author: @user) }
 
     context 'valid attributes' do
 
       it 'assings the requested answer to @answer' do
-        patch :update, id: answer, answer: { body: 'new body'}, question_id: question
+        patch :update, id: answer, answer: { body: 'new body'}, question_id: question, format: :js
         expect(assigns(:answer)).to eq answer
       end
 
       it 'changes answer attributes' do
-        patch :update, id: answer, answer: { body: 'new body'}, question_id: question
+        patch :update, id: answer, answer: { body: 'new body'}, question_id: question, format: :js
         expect(answer.reload.body).to eq 'new body'
       end
 
       it 'respond  with Accepted' do
-        patch :update, id: answer, answer: { body: 'new body'}, question_id: question
-        expect(response.status).to eq 202
+        patch :update, id: answer, answer: { body: 'new body'}, question_id: question, format: :js
+        expect(response.status).to eq 200
       end
     end
 
     context 'invalid attributes' do
-      before { patch :update, id: answer, answer: { body: nil}, question_id: question }
+      before { patch :update, id: answer, answer: { body: nil}, question_id: question, format: :js }
 
       it 'does not change answer attributes' do
         expect(answer.reload.body).to eq 'MyText'
-      end
-
-      it 'respond with Bad Request' do
-        expect(response.status).to eq 400
       end
     end
   end
@@ -75,16 +65,16 @@ RSpec.describe AnswersController, :type => :controller do
     sign_in_user
 
     let(:question) {create(:question)}
-    let(:answer) { create(:answer) }
+    let(:answer) { create(:answer, author: @user) }
 
     before { answer }
 
     it 'deletes answer' do
-      expect{ delete :destroy, id: answer, question_id: question }.to change(Answer, :count).by(-1)
+      expect{ delete :destroy, id: answer, question_id: question, format: :js }.to change(Answer, :count).by(-1)
     end
 
     it 'response with Accepted' do
-      delete :destroy, id: answer, question_id: question
+      delete :destroy, id: answer, question_id: question, format: :js
       expect(response.status).to eq 202
     end
   end

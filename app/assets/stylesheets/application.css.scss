@@ -14,3 +14,10 @@ s
  *= require_tree .
  *= require_self
  */
+
+#new_answer {
+  display: none;
+}
+form[id^='edit_answer_']{
+  display: none;
+}

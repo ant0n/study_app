@@ -4,9 +4,15 @@
 
 jQuery ->
   ready = ->
-    $('.new_answer').click (e) ->
+    $('.add_answer').click (e) ->
       e.preventDefault()
-      $('.create_answer').show()
+      $('#new_answer').show()
+
+    $('.actions .edit').click (e) ->
+      e.preventDefault()
+      answer_id = $(this).data('answer-id')
+      $('#edit_answer_'+answer_id).show()
+
 
   $(document).ready(ready)
   $(document).on('page:load', ready)

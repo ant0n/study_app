@@ -1,0 +1,5 @@
+$('#answer_<%= @answer.id %>').replaceWith('<%= j render @answer %>');
+
+<% if @answer.errors.present? %>
+    $('#answer_<%= @answer.id %> form').show();
+<% end %>

@@ -41,13 +41,13 @@ gem 'pundit'
 group :test, :development do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'capybara-webkit'
 end
 
 group :test do
   gem 'shoulda-matchers', require: false
   gem 'capybara'
   gem 'launchy'
-  gem 'selenium-webdriver'
   gem 'database_cleaner'
 end
 
