@@ -6,9 +6,7 @@ class QuestionsController < ApplicationController
     @questions = Question.all
   end
 
-  def show
-    @answer = @question.answers.build
-  end
+  def show; end
 
   def new
     @question = Question.new()
@@ -41,13 +39,13 @@ class QuestionsController < ApplicationController
   end
 
 
-    private
+  private
 
-      def get_question
-        @question = Question.find(params[:id])
-      end
+    def get_question
+      @question = Question.find(params[:id])
+    end
 
-      def question_params
-        params.require(:question).permit(:title, :body)
-      end
-  end
+    def question_params
+      params.require(:question).permit(:title, :body)
+    end
+end

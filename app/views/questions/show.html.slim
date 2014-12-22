@@ -11,4 +11,4 @@ div.add_answer
   =link_to 'Add answer', '#'
 
 
-= render 'answers/form'
+= render partial: 'answers/form', locals: {question: @question, answer: @question.answers.build}

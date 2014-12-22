@@ -59,6 +59,16 @@ RSpec.describe AnswersController, :type => :controller do
         expect(answer.reload.body).to eq 'MyText'
       end
     end
+
+    context 'not an author of answer tried to change it' do
+      let(:user2)    { create :user }
+      let!(:answer2) { create :answer, question: question, author: user2 }
+      before { patch :update, id: answer2, answer: { body: 'new body'}, question_id: question, format: :js }
+
+      it "does not change answer attributes" do
+        expect(answer2.body).to eq "MyText"
+      end
+    end
   end
 
   describe 'DELETE #destroy' do

@@ -1,7 +1,7 @@
 <% if @answer.errors.present? %>
-    $('#new_answer').html('<%= j render 'form' %>');
+    $('#new_answer').html('<%= j (render partial: 'form', locals: {answer: @answer, question: @question}) %>');
 <% else %>
-    $('.answers').append('<%= j render @question.answers.last %>');
+    $('.answers').append('<%= j render @answer %>');
 
     var elems = $('.form-group');
     if (elems.hasClass('has-error')) elems.removeClass('has-error').find('.help-block').remove();

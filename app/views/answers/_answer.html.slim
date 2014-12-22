@@ -2,7 +2,4 @@
   div id="answer_#{answer.id}" class="well well-sm"
     div.answer-body= answer.body
     div.actions
-      = link_to 'Edit', '#', data: {answer_id: answer.id}, class: 'edit' if answer.author == current_user
-    = simple_form_for [answer.question, answer], html: {class: 'form-horizontal'}, remote: true do |f|
-      = f.input :body
-      = f.submit
+      = link_to 'Edit', edit_question_answer_path(answer.question, answer), remote: true if answer.author == current_user
