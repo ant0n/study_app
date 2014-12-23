@@ -1,6 +1,6 @@
-= simple_form_for @question do |f|
+= simple_form_for @question, remote: true do |f|
   = f.error_notification
 
   = f.input :title
   = f.input :body
-  = f.submit 'Create'
+  = f.submit

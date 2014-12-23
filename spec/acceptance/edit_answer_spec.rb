@@ -7,7 +7,7 @@ feature 'Answer editing', %q{
 } do
 
   given(:user)      { create(:user) }
-  given!(:question) { create(:question) }
+  given!(:question) { create(:question, author: user) }
   given!(:answer)   { create(:answer, question: question, author: user) }
   given(:user2)     { create(:user) }
   given!(:answer2)  { create(:answer, question: question, author: user2) }
@@ -32,8 +32,9 @@ feature 'Answer editing', %q{
     end
 
     scenario 'try to edit his answer', js: true do
-      click_on 'Edit'
       within "#answer_#{answer.id}" do
+        click_on 'Edit'
+
         fill_in 'answer_body', with: 'edited answer'
         click_on 'Update Answer'
 

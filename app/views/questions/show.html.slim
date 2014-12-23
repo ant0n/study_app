@@ -1,8 +1,11 @@
-div.panel.panel-primary
-  div.panel-heading
-    h2.panel-title= @question.title
-  div.panel-body
-    p= @question.body
+div.question
+  div.panel.panel-primary
+    div.panel-heading
+      h2.panel-title= @question.title
+    div.panel-body
+      p= @question.body
+      - if @question.author == current_user
+        p.action= link_to 'Edit', edit_question_path(@question), remote: true
 
 div.answers
   = render @question.answers

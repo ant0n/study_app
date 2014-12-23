@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :get_question, only: [:show, :edit, :update, :destroy]
+  before_action :check_author, only: [:edit, :update, :destroy]
 
   def index
     @questions = Question.all
@@ -26,10 +27,14 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if @question.update(question_params)
-      redirect_to @question
-    else
-      render :edit
+    respond_to do |format|
+      if @question.update(question_params)
+        format.html { redirect_to @question}
+        format.js   { render js: "window.location = '#{question_path(@question)}'" }
+      else
+        format.html { render :edit}
+        format.js   { render :edit }
+      end
     end
   end
 
@@ -47,5 +52,9 @@ class QuestionsController < ApplicationController
 
     def question_params
       params.require(:question).permit(:title, :body)
+    end
+
+    def check_author
+      redirect_to question_path(@question) if @question.author != current_user
     end
 end
