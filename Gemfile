@@ -39,6 +39,10 @@ gem 'devise'
 #autorisation
 gem 'pundit'
 
+gem 'carrierwave'
+gem 'remotipart'
+gem 'nested_form', git: 'git://github.com/ryanb/nested_form.git'
+
 group :test, :development do
   gem 'rspec-rails'
   gem 'factory_girl_rails'

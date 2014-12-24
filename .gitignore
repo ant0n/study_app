@@ -24,6 +24,7 @@ config/database.yml
 /public/tmp
 /public/uploads
 /public/spec
+/public/uploads
 
 # Mac OS files
 .DS_Store
