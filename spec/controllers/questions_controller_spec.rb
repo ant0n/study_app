@@ -84,9 +84,9 @@ RSpec.describe QuestionsController, :type => :controller do
         expect{post :create, question: question}.to change(Question, :count).by(1)
       end
 
-      it 'redirects to show view' do
+      it 'success' do
         post :create, question: question
-        expect(response).to redirect_to question_path(assigns(:question))
+        expect(response.status).to eq 200
       end
 
     end
@@ -100,7 +100,7 @@ RSpec.describe QuestionsController, :type => :controller do
 
       it 're-renders new view' do
         post :create, question: invalid_question
-        expect(response).to render_template :new
+        expect(response).to render_template :edit
       end
 
     end
@@ -147,7 +147,7 @@ RSpec.describe QuestionsController, :type => :controller do
 
     end
 
-    context 'Not an author of question' do
+    context 'not an author of question' do
 
       let(:user2)     { create(:user) }
       let(:question2) { create(:question, author: user2) }

@@ -20,10 +20,9 @@ class QuestionsController < ApplicationController
     @question        = Question.new(question_params)
     @question.author = current_user
     if @question.save
-      flash[:success] = 'Question successfully created'
-      redirect_to question_path(@question)
+      render js: "window.location = '#{question_path(@question)}'"
     else
-      render :new
+      render :edit
     end
   end
 
@@ -52,7 +51,7 @@ class QuestionsController < ApplicationController
     end
 
     def question_params
-      params.require(:question).permit(:title, :body, attachments_attributes: [:file])
+      params.require(:question).permit(:title, :body, attachments_attributes: [:file, :_destroy])
     end
 
     def check_author
