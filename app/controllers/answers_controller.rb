@@ -9,7 +9,13 @@ class AnswersController < ApplicationController
     # или так
     @answer        = @question.answers.build(answer_params)
     @answer.author = current_user
-    @answer.save
+    respond_to do |format|
+      if @answer.save
+        format.json {render :create, status: :created}
+      else
+        format.json {render :create, status: 422}
+      end
+    end
   end
 
   def edit; end

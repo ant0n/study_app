@@ -1,0 +1,16 @@
+<div id="answer_<%= answer.id %>" class="well well-sm">
+    <div class='.answer-body'><%= answer.body %></div>
+    <% if(answer.attachments.length > 0) { %>
+        <p> Attachments: </p>
+        <ul>
+            <% $.each(answer.attachments, function(number, a){ %>
+                <li> <a href ="<%= a.url %>"> <%= a.name %> </a> </li>
+            <% }) %>
+        </ul>
+     <% } %>
+    <% if(answer.edit_url) { %>
+        <div class="actions">
+            <a href="<%= answer.edit_url %>" data-remote="true"> Edit </a>
+        </div>
+    <% } %>
+</div>

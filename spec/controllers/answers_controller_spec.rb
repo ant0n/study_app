@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, :type => :controller do
+
   describe 'POST #create' do
     sign_in_user
 
@@ -9,11 +10,11 @@ RSpec.describe AnswersController, :type => :controller do
       let(:answer) { attributes_for(:answer, question_id: question) }
 
       it 'saves the new answer in db' do
-        expect{post :create, answer: answer, question_id: question, format: :js}.to change(question.answers, :count).by(1)
+        expect{post :create, answer: answer, question_id: question, format: :json}.to change(question.answers, :count).by(1)
       end
 
       it 'render create template' do
-        post :create, answer: answer, question_id: question, format: :js
+        post :create, answer: answer, question_id: question, format: :json
         expect(response.status).to render_template :create
       end
 
@@ -24,7 +25,7 @@ RSpec.describe AnswersController, :type => :controller do
       let(:invalid_answer) { attributes_for(:invalid_answer) }
 
       it 'does not save answer' do
-        expect {post :create, answer: invalid_answer, question_id: question, format: :js}.to_not change(Answer, :count)
+        expect {post :create, answer: invalid_answer, question_id: question, format: :json}.to_not change(Answer, :count)
       end
     end
   end

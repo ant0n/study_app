@@ -1,4 +1,4 @@
-$('#answer_<%= @answer.id %>').replaceWith('<%= j render @answer %>');
+$('#answer_<%= @answer.id %>').replaceWith('<%= j(render partial: 'answer.html', locals: {answer: @answer}) %>');
 
 <% if @answer.errors.present? %>
     $('#answer_<%= @answer.id %> form').show();

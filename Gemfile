@@ -33,6 +33,9 @@ gem 'slim-rails'
 gem "twitter-bootstrap-rails"
 gem 'simple_form'
 
+# for js tempplates
+gem 'ejs'
+
 #authentication
 gem 'devise'
 

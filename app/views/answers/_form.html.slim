@@ -1,4 +1,4 @@
-= simple_nested_form_for [question, answer], html: {class: 'form-horizontal'}, remote: true do |f|
+= simple_nested_form_for [question, answer], html: {class: 'form-horizontal'}, remote: true, data: { type: :json } do |f|
   = f.input :body
   = f.simple_fields_for :attachments do |a|
     = a.input :file, as: :file

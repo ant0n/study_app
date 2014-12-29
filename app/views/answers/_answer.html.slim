@@ -1,9 +1,10 @@
 - if answer.persisted?
   div id="answer_#{answer.id}" class="well well-sm"
     div.answer-body= answer.body
-    p Attachments:
-    ul
-      - answer.attachments.each do |a|
-        li= link_to a.file.identifier, a.file.url
+    - if answer.attachments.any?
+      p Attachments:
+      ul
+        - answer.attachments.each do |a|
+          li= link_to a.file.identifier, a.file.url
     div.actions
       = link_to 'Edit', edit_question_answer_path(answer.question, answer), remote: true if answer.author == current_user
