@@ -10,4 +10,11 @@ FactoryGirl.define do
     question
     author { create(:user) }
   end
+
+  factory :best_answer, class: 'Answer' do
+    body "MyText"
+    is_best true
+    question
+    author { create(:user) }
+  end
 end

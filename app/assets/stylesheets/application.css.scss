@@ -10,10 +10,11 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
-s
  *= require_tree .
  *= require_self
  */
+
+@import "font-awesome";
 
 #new_answer {
   display: none;
@@ -27,3 +28,4 @@ form[id^='edit_answer_']{
     text-align: right;
   }
 }
+

@@ -14,6 +14,7 @@ class Question < ActiveRecord::Base
   has_many :comments, as: :commentable
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
   has_many :attachments, as: :attachmentable
+  has_one :best_answer, -> { where is_best: true }, class_name: 'Answer'
 
   validates :title, :body, presence: true
 

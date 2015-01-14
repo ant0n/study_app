@@ -38,10 +38,6 @@ RSpec.describe QuestionsController, :type => :controller do
       expect(assigns(:question)).to be_a_new(Question)
     end
 
-    it 'builds  new  attachment for question' do
-      expect(assigns(:question).attachments.first).to be_a_new(Attachment)
-    end
-
     it 'render new  view' do
       expect(response).to render_template :new
     end
@@ -86,7 +82,7 @@ RSpec.describe QuestionsController, :type => :controller do
 
       it 'success' do
         post :create, question: question
-        expect(response.status).to eq 200
+        expect(response).to redirect_to assigns(:question)
       end
 
     end

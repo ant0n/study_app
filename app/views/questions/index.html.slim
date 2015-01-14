@@ -1,5 +1,7 @@
 h2 Questions
 
-=render @questions
+.questions
+  = render @questions
+  = link_to 'Create question', new_question_path
 
-= link_to 'Create question', new_question_path
+=# subscribe_to questions_path if current_user

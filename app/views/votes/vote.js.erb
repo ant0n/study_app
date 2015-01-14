@@ -1,0 +1,8 @@
+block = $('<%= "##{params[:object]}_#{@vh.votable_id}" %> .votes');
+block.find('a.disabled').removeClass('disabled')
+<% if action_name == 'vote_up' %>
+    block.find('a:first-of-type').addClass('disabled');
+<% else %>
+    block.find('a:last-of-type').addClass('disabled');
+<% end %>
+block.find('.votes_count').html('<%= @vh.reload.vote_count %>');

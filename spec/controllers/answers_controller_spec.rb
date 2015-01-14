@@ -76,9 +76,7 @@ RSpec.describe AnswersController, :type => :controller do
     sign_in_user
 
     let(:question) {create(:question)}
-    let(:answer) { create(:answer, author: @user) }
-
-    before { answer }
+    let!(:answer) { create(:answer, author: @user) }
 
     it 'deletes answer' do
       expect{ delete :destroy, id: answer, question_id: question, format: :js }.to change(Answer, :count).by(-1)
@@ -89,4 +87,34 @@ RSpec.describe AnswersController, :type => :controller do
       expect(response.status).to eq 202
     end
   end
+
+  describe 'POST #set_best' do
+    sign_in_user
+
+    let(:user2)     { create(:user) }
+    let!(:question) { create(:question, author: @user) }
+    let!(:answer)   { create(:answer, question: question, author: user2) }
+
+    context 'Author of question' do
+
+      it 'marked the best answer' do
+        post :set_best, id: answer, question_id: question, format: :js
+
+        expect(answer.reload.is_best).to eq true
+      end
+    end
+
+    context 'Not an author of question' do
+      let!(:question2) { create(:question, author: user2) }
+      let(:answer2)    { create(:answer, question: question2, author: user2)}
+
+      it 'raise a permission denied error' do
+        post :set_best, id: answer2, question_id: question2, format: :js
+
+        expect(response.status).to eq 550
+      end
+    end
+  end
+
+
 end

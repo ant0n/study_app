@@ -1,3 +1,4 @@
 var block = $('#answer_<%= @answer.id %>');
 block.append('<%= j(render partial: 'form', locals: {answer: @answer, question: @answer.question} )%>');
 block.find('form').show();
+block.find('.edit').hide();

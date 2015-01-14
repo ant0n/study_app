@@ -1,0 +1,13 @@
+development:
+  server: "http://localhost:9292/faye"
+  secret_token: "secret"
+test:
+  server: "http://localhost:9292/faye"
+  secret_token: "secret"
+production:
+  server: "http://example.com/faye"
+  secret_token: "913f3e9a12945e08dffabc1489dc5ba365a39eccefa664363d5296c2d6e1cb8b"
+  signature_expiration: 3600 # one hour
+
+
+# rackup private_pub.ru -s thin -E production

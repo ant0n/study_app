@@ -16,6 +16,7 @@
 //= require jquery_nested_form
 //= require jquery-ui/core
 //= require jquery-ui/effect-highlight
+//= require private_pub
 //= require twitter/bootstrap
 //= require turbolinks
 //= require_tree .

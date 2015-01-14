@@ -1,5 +1,9 @@
-$('#answer_<%= @answer.id %>').replaceWith('<%= j(render partial: 'answer.html', locals: {answer: @answer}) %>');
+block = $('#answer_<%= @answer.id %>');
 
 <% if @answer.errors.present? %>
-    $('#answer_<%= @answer.id %> form').show();
+    block.find('form').remove();
+    block.append('<%= j(render partial: 'form', locals: {answer: @answer, question: @answer.question} )%>');
+    block.find('form').show();
+<% else %>
+    block.replaceWith('<%= j(render partial: 'answer.html', locals: { answer: @answer }) %>');
 <% end %>

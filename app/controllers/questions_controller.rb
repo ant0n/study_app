@@ -10,8 +10,7 @@ class QuestionsController < ApplicationController
   def show; end
 
   def new
-    @question = Question.new()
-    @question.attachments.build
+    @question = Question.new
   end
 
   def edit; end
@@ -20,21 +19,20 @@ class QuestionsController < ApplicationController
     @question        = Question.new(question_params)
     @question.author = current_user
     if @question.save
-      render js: "window.location = '#{question_path(@question)}'"
+      logger.info render_to_string(template: 'questions/create.js')+'TEEEST'
+      #PrivatePub.publish_to questions_path, question: 'test'
+      flash[:success] = "Question successfully created"
+      redirect_to question_path @question
     else
       render :edit
     end
   end
 
   def update
-    respond_to do |format|
-      if @question.update(question_params)
-        format.html { redirect_to @question}
-        format.js   { render js: "window.location = '#{question_path(@question)}'" }
-      else
-        format.html { render :edit}
-        format.js   { render :edit }
-      end
+    if @question.update(question_params)
+      redirect_to @question
+    else
+      render :edit
     end
   end
 

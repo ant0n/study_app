@@ -1,0 +1,6 @@
+var block = $("#answer_<%= @answer.id %>");
+
+$('.best').removeClass('best');
+
+block.addClass('best');
+$('.answers').prepend(block.remove());

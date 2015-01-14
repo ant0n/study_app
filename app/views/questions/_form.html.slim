@@ -1,4 +1,4 @@
-= simple_nested_form_for @question, remote: true do |f|
+= simple_nested_form_for @question do |f|
   = f.error_notification
 
   = f.input :title
@@ -6,7 +6,7 @@
   = f.simple_fields_for :attachments do |a|
     = a.input :file, as: :file
     = a.link_to_remove 'Remove'
-  = f.link_to_add 'Add', :attachments
+  = f.link_to_add 'Add File', :attachments
 
   div.form-group
     div.col-sm-offest-2.col-sm-10

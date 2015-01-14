@@ -4,9 +4,20 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  resources :questions do
-    resources :answers, except: [:index, :show, :new]
+  concern :votable do
+    post 'vote_up', on: :member
+    post 'vote_down', on: :member
   end
+
+  resources :questions do
+    resources :answers, except: [:index, :show, :new] do
+      post 'set_best', on: :member
+    end
+  end
+
+  post 'vote_up/:object/:id',   to: 'votes#vote_up',   as: 'vote_up'
+  post 'vote_down/:object/:id', to: 'votes#vote_down', as: 'vote_down'
+  #resources :answers, only: [], concerns: :votable
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

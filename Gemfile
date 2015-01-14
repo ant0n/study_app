@@ -33,6 +33,9 @@ gem 'slim-rails'
 gem "twitter-bootstrap-rails"
 gem 'simple_form'
 
+# icons
+gem "font-awesome-rails"
+
 # for js tempplates
 gem 'ejs'
 
@@ -41,6 +44,10 @@ gem 'devise'
 
 #autorisation
 gem 'pundit'
+
+#pub/sub
+gem 'private_pub'
+gem 'thin'
 
 gem 'carrierwave'
 gem 'remotipart'

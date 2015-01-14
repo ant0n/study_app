@@ -1,10 +1,15 @@
 - if answer.persisted?
-  div id="answer_#{answer.id}" class="well well-sm"
+  div id="answer_#{answer.id}" class="well well-sm#{ answer.is_best? ? ' best' : '' }"
     div.answer-body= answer.body
     - if answer.attachments.any?
       p Attachments:
       ul
         - answer.attachments.each do |a|
           li= link_to a.file.identifier, a.file.url
+    - if current_user
+      = vote_for answer
     div.actions
-      = link_to 'Edit', edit_question_answer_path(answer.question, answer), remote: true if answer.author == current_user
+      - if answer.author == current_user
+        = link_to 'Edit', edit_question_answer_path(answer.question, answer), remote: true, class: 'edit'
+      - if answer.question.author == current_user
+        = link_to 'Best answer!', set_best_question_answer_path(answer.question, answer), remote: true, method: :post, class: 'set_best'
