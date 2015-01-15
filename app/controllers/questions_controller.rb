@@ -1,51 +1,53 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :get_question, only: [:show, :edit, :update, :destroy]
+  before_action :set_question, only: [:show, :edit, :update, :destroy]
   before_action :check_author, only: [:edit, :update, :destroy]
 
+  respond_to :html
+
   def index
-    @questions = Question.all
+    respond_with(@questions = Question.all)
   end
 
-  def show; end
+  def show
+    respond_with @question
+  end
 
   def new
-    @question = Question.new
+    respond_with(@question = Question.new)
   end
 
-  def edit; end
+  def edit
+    respond_with @question
+  end
 
   def create
     @question        = Question.new(question_params)
     @question.author = current_user
-    if @question.save
-      logger.info render_to_string(template: 'questions/create.js')+'TEEEST'
-      #PrivatePub.publish_to questions_path, question: 'test'
-      flash[:success] = "Question successfully created"
-      redirect_to question_path @question
-    else
-      render :edit
-    end
+    @question.save
+    #logger.info render_to_string(template: 'questions/create.js')+'TEEEST'
+    #PrivatePub.publish_to questions_path, question: 'test'
+    respond_with(@question)
   end
 
   def update
-    if @question.update(question_params)
-      redirect_to @question
-    else
-      render :edit
-    end
+    @question.update(question_params)
+    respond_with @question
   end
 
   def destroy
-    @question.destroy
-    redirect_to questions_path
+    respond_with @question.destroy
   end
 
 
   private
 
-    def get_question
+    def set_question
       @question = Question.find(params[:id])
+    end
+
+    def interpolation_options
+      { resource_name: 'Question', user: current_user.email }
     end
 
     def question_params

@@ -96,7 +96,7 @@ RSpec.describe QuestionsController, :type => :controller do
 
       it 're-renders new view' do
         post :create, question: invalid_question
-        expect(response).to render_template :edit
+        expect(response).to render_template :new
       end
 
     end
