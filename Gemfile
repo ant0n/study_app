@@ -41,6 +41,8 @@ gem 'ejs'
 
 #authentication
 gem 'devise'
+gem 'omniauth'
+gem 'omniauth-facebook'
 
 #autorisation
 gem 'pundit'
@@ -51,6 +53,12 @@ gem 'responders', '~> 2.0'
 #pub/sub
 gem 'private_pub'
 gem 'thin'
+
+# api
+gem 'doorkeeper'
+gem 'active_model_serializers'
+gem 'oj'
+gem 'oj_mimic_json'
 
 gem 'carrierwave'
 gem 'remotipart'
@@ -67,6 +75,7 @@ group :test do
   gem 'capybara'
   gem 'launchy'
   gem 'database_cleaner'
+  gem 'json_spec'
 end
 
 # Use ActiveModel has_secure_password

@@ -1,17 +1,30 @@
 Rails.application.routes.draw do
 
+  use_doorkeeper
   root to: 'questions#index'
 
   devise_for :users
 
-  concern :votable do
-    post 'vote_up', on: :member
-    post 'vote_down', on: :member
+  concern :commentable do
+    resources :comments, except: [:show, :index]
   end
 
-  resources :questions do
-    resources :answers, except: [:index, :show, :new] do
+  resources :questions, concerns: :commentable do
+    resources :answers,
+              except:   [:index, :show, :new],
+              concerns: :commentable,
+              shallow:  true do
+
       post 'set_best', on: :member
+    end
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resources :profiles, only: [:index] do
+        get :me, on: :collection
+      end
+      resources :questions
     end
   end
 

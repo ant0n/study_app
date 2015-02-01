@@ -10,6 +10,6 @@
       = vote_for answer
     div.actions
       - if answer.author == current_user
-        = link_to 'Edit', edit_question_answer_path(answer.question, answer), remote: true, class: 'edit'
+        = link_to 'Edit', edit_answer_path(answer), remote: true, class: 'edit'
       - if answer.question.author == current_user
-        = link_to 'Best answer!', set_best_question_answer_path(answer.question, answer), remote: true, method: :post, class: 'set_best'
+        = link_to 'Best answer!', set_best_answer_path(answer), remote: true, method: :post, class: 'set_best'

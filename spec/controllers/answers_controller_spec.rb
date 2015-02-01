@@ -61,14 +61,9 @@ RSpec.describe AnswersController, :type => :controller do
       end
     end
 
-    context 'not an author of answer tried to change it' do
-      let(:user2)    { create :user }
-      let!(:answer2) { create :answer, question: question, author: user2 }
-      before { patch :update, id: answer2, answer: { body: 'new body'}, question_id: question, format: :js }
-
-      it "does not change answer attributes" do
-        expect(answer2.body).to eq "MyText"
-      end
+    it 'check authorization' do
+      expect(controller).to receive(:authorize)
+      post :set_best, id: answer, question_id: question, format: :js
     end
   end
 
@@ -84,7 +79,7 @@ RSpec.describe AnswersController, :type => :controller do
 
     it 'response with Accepted' do
       delete :destroy, id: answer, question_id: question, format: :js
-      expect(response.status).to eq 202
+      expect(response.status).to eq 200
     end
   end
 
@@ -94,6 +89,12 @@ RSpec.describe AnswersController, :type => :controller do
     let(:user2)     { create(:user) }
     let!(:question) { create(:question, author: @user) }
     let!(:answer)   { create(:answer, question: question, author: user2) }
+
+    it 'check authorization' do
+      expect(controller).to receive(:authorize).with(answer)
+
+      post :set_best, id: answer, question_id: question, format: :js
+    end
 
     context 'Author of question' do
 
@@ -105,15 +106,14 @@ RSpec.describe AnswersController, :type => :controller do
     end
 
     context 'Not an author of question' do
-      let!(:question2) { create(:question, author: user2) }
-      let(:answer2)    { create(:answer, question: question2, author: user2)}
+      it 'raise error' do
+        question2 = create :question, author: user2
+        answer2   = create :answer, question: question2, author: user2
 
-      it 'raise a permission denied error' do
-        post :set_best, id: answer2, question_id: question2, format: :js
-
-        expect(response.status).to eq 550
+        expect{post :set_best, id: answer2, question_id: question2, format: :js}.to raise_error(Pundit::NotAuthorizedError)
       end
     end
+
   end
 
 

@@ -9,8 +9,15 @@ div.question
         ul
           - @question.attachments.each do |a|
             li= link_to a.file.identifier, a.file.url
+      - if @question.comments.any?
+        div.comments
+          = render @question.comments
+
+      =link_to 'Add comment', new_question_comment_path(@question), remote: true
+
       - if @question.author == current_user
         p.action= link_to 'Edit', edit_question_path(@question)
+
 
 div.answers
   = render @question.answers

@@ -16,7 +16,7 @@ class VotesController < ApplicationController
 
     def get_vote
       object = params[:object].classify.constantize.find params[:id]
-      @vh    = object.voteholder
+      @vh    = object.voteholder || object.create_voteholder
       @vote  = Vote.find_or_create_by(voteholder: @vh, voter: current_user)
     end
 end

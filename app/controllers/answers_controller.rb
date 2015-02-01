@@ -1,33 +1,34 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :get_answer, only: [:update, :destroy, :edit, :set_best]
-  before_action :check_author, only: [:update, :destroy, :edit]
+  before_action :check_author, only: [:update, :destroy, :edit, :set_best]
+
+  respond_to :js, :json
 
   def create
     @question      = Question.find(params[:question_id])
     @answer        = @question.answers.build(answer_params)
     @answer.author = current_user
     @answer.save
+    respond_with @answer
   end
 
-  def edit; end
+  def edit
+    respond_with @answer
+  end
 
   def update
     @answer.update(answer_params)
+    respond_with @answer
   end
 
   def destroy
-    @answer.destroy
-    render nothing: true, status: 202
+    respond_with @answer.destroy
   end
 
   def set_best
-    if current_user == @answer.question.author
-      @answer.update(is_best: true)
-      render :set_best, status: :ok
-    else
-      render nothing: true, status: 550
-    end
+    @answer.update(is_best: true)
+    render :set_best, status: :ok
   end
 
   private
@@ -37,10 +38,7 @@ class AnswersController < ApplicationController
     end
 
     def check_author
-      unless @answer.author == current_user
-        @answer.errors.add :author_id, 'only can modify answer'
-        respond_to { |f| f.js }
-      end
+      authorize @answer
     end
 
   def answer_params
