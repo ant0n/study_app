@@ -71,8 +71,7 @@ describe 'Prifoles API' do
             expect(response.body).to_not have_json_path(attr)
           end
         end
+    end
 =end
-
-      end
   end
 end
