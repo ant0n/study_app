@@ -46,6 +46,7 @@ class QuestionsController < ApplicationController
       @question = Question.find(params[:id])
     end
 
+    # responders i18n
     def interpolation_options
       { resource_name: 'Question', user: current_user.email }
     end
@@ -55,6 +56,6 @@ class QuestionsController < ApplicationController
     end
 
     def check_author
-      redirect_to question_path(@question) if @question.author != current_user
+      authorize @question
     end
 end

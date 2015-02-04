@@ -4,13 +4,15 @@ describe AnswerPolicy do
   subject { described_class }
   let!(:user) { create(:user) }
 
-  permissions :update? do
-    it 'grant access if user is author' do
-      expect(subject).to permit(user, create(:answer, author: user))
-    end
+  [:edit?, :update?, :destroy?].each do |k|
+    permissions k do
+      it 'grant access if user is author' do
+        expect(subject).to permit(user, create(:answer, author: user))
+      end
 
-    it 'denies access if user is not author' do
-      expect(subject).not_to permit(User.new, create(:answer, author: user))
+      it 'denies access if user is not author' do
+        expect(subject).not_to permit(User.new, create(:answer, author: user))
+      end
     end
   end
 

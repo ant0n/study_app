@@ -36,7 +36,7 @@ gem 'simple_form'
 # icons
 gem "font-awesome-rails"
 
-# for js tempplates
+# for js templates
 gem 'ejs'
 
 #authentication

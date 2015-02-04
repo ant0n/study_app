@@ -1,10 +1,7 @@
 <% if @answer.errors.present? %>
     $('#new_answer').html('<%= j (render partial: 'form', locals: {answer: @answer, question: @question}) %>');
 <% else %>
-    <% publish_to question_answers_path(@question) do %>
-        $('.answers').append('<%= j render @answer %>');
-    <% end %>
-
+    $('.answers').append('<%= j render @answer %>');
     var elems = $('.form-group');
     if (elems.hasClass('has-error')) elems.removeClass('has-error').find('.help-block').remove();
 

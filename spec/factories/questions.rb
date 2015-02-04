@@ -3,7 +3,7 @@ FactoryGirl.define do
     title "MyString"
     body "MyText"
 
-    factory :question_with_answers do
+    factory :question_with_answers, class: 'Question' do
       transient do
         answers_count 2
       end

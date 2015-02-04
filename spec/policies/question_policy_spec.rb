@@ -2,27 +2,20 @@ require 'rails_helper'
 
 describe QuestionPolicy do
 
-  let(:user) { User.new }
+  let(:user)     { create :user }
+  let(:question) { create :question, author: user }
 
   subject { QuestionPolicy }
 
-  permissions ".scope" do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
+  [:edit?, :update?, :destroy?].each do |k|
+    permissions k do
+      it 'grant access if user is author' do
+        expect(subject).to permit(user, question)
+      end
 
-  permissions :create? do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
-
-  permissions :show? do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
-
-  permissions :update? do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
-
-  permissions :destroy? do
-    pending "add some examples to (or delete) #{__FILE__}"
+      it 'denies access if user is not author' do
+        expect(subject).not_to permit(User.new, question)
+      end
+    end
   end
 end

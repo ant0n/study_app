@@ -4,4 +4,16 @@ class QuestionPolicy < ApplicationPolicy
       scope
     end
   end
+
+  def update?
+    user == record.author
+  end
+
+  def destroy?
+    user == record.author
+  end
+
+  def edit?
+    user == record.author
+  end
 end

@@ -47,6 +47,11 @@ RSpec.describe QuestionsController, :type => :controller do
   describe 'GET #edit' do
     let(:question) { create(:question, author: @user) }
 
+    it 'check authorization' do
+      expect(controller).to receive(:authorize).with(question)
+      post :edit, id: question
+    end
+
     context 'Author of question' do
       before { get :edit, id: question }
 
@@ -63,10 +68,8 @@ RSpec.describe QuestionsController, :type => :controller do
       let(:user2)     { create(:user) }
       let(:question2) { create(:question, author: user2) }
 
-      before { get :edit, id: question2 }
-
       it 'redirects to question path' do
-        expect(response).to redirect_to question_path(question2)
+        expect{ get :edit, id: question2 }.to raise_error(Pundit::NotAuthorizedError)
       end
     end
   end
@@ -105,6 +108,12 @@ RSpec.describe QuestionsController, :type => :controller do
   describe 'PATCH #update' do
 
     let(:question) { create(:question, author: @user) }
+
+    it 'check authorization' do
+      expect(controller).to receive(:authorize).with(question)
+      patch :update, id: question, question: { title: 'new title', body: 'new body'}
+    end
+
     context 'Author of question' do
 
       context 'valid attributes' do
@@ -148,10 +157,8 @@ RSpec.describe QuestionsController, :type => :controller do
       let(:user2)     { create(:user) }
       let(:question2) { create(:question, author: user2) }
 
-      before { get :edit, id: question2 }
-
       it 'redirects to question path' do
-        expect(response).to redirect_to question_path(question2)
+        expect{ get :edit, id: question2 }.to raise_error(Pundit::NotAuthorizedError)
       end
     end
   end
@@ -161,6 +168,11 @@ RSpec.describe QuestionsController, :type => :controller do
     let(:question) { create(:question, author: @user) }
     before { question }
 
+    it 'check authorization' do
+      expect(controller).to receive(:authorize).with(question)
+      post :destroy, id: question
+    end
+
     it 'deletes question' do
       expect{ delete :destroy, id: question }.to change(Question, :count).by(-1)
     end
@@ -168,6 +180,14 @@ RSpec.describe QuestionsController, :type => :controller do
     it 'redirect to index view' do
       delete :destroy, id: question
       expect(response).to redirect_to questions_path
+    end
+
+
+    it 'redirects to question path' do
+      user2     = create :user
+      question2 = create :question, author: user2
+
+      expect{ delete :destroy, id: question2 }.to raise_error(Pundit::NotAuthorizedError)
     end
   end
 end

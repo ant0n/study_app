@@ -1,10 +1,7 @@
 require 'rails_helper'
 
-# так выдает ошибку о том что не может найти роуты
-#RSpec.describe Api::V1::ProfilesController, :type => :controller do
-
 describe 'Prifoles API' do
-  describe 'GET /me' do
+  describe 'GET #me' do
     context 'unauthorized' do
       it 'returns 401 status if there is no access_token' do
         get '/api/v1/profiles/me', format: :json
@@ -43,8 +40,8 @@ describe 'Prifoles API' do
   end
 
   describe 'GET #index' do
-      let!(:users) { create_list :user, 4 }
-      let!(:user)   { users.first }
+      let!(:users)       { create_list :user, 4 }
+      let!(:user)        { users.first }
       let(:access_token) { create :access_token, resource_owner_id: user.id }
 
       before { get '/api/v1/profiles', format: :json, access_token: access_token.token }
@@ -53,16 +50,18 @@ describe 'Prifoles API' do
         expect(response).to be_success
       end
 
-=begin
-
       context 'users' do
         it 'included in user object' do
-          expect(response.body).to have_json_size(4).at_path("users/")
+          expect(response.body).to have_json_size(3).at_path("users/")
+        end
+
+        it 'not included current_user' do
+          expect(assigns(:users).to_json).to_not include_json(user.to_json)
         end
 
         %w(id email created_at updated_at).each do |attr|
           it "contains #{attr}" do
-            expect(response.body).to be_json_eql(users.to_json).at_path("users/0/#{attr}")
+            expect(response.body).to be_json_eql(users[1].send(attr.to_sym).to_json).at_path("users/0/#{attr}")
           end
         end
 
@@ -71,7 +70,7 @@ describe 'Prifoles API' do
             expect(response.body).to_not have_json_path(attr)
           end
         end
-    end
-=end
+      end
+
   end
 end
