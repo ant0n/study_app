@@ -1,5 +1,4 @@
 class Api::V1::BaseController < ApplicationController
-  before_action {logger.info params[:_json]}
   before_action :doorkeeper_authorize!
 
   respond_to :json

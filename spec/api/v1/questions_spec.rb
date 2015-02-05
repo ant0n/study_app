@@ -3,17 +3,7 @@ require 'rails_helper'
 describe 'Questions API' do
 
   describe 'GET /index' do
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        get '/api/v1/questions', format: :json
-        expect(response.status).to eq 401
-      end
-
-      it 'returns 401 status if there is access_token is invalid' do
-        get '/api/v1/questions', format: :json, access_token: '987654'
-        expect(response.status).to eq 401
-      end
-    end
+    it_behaves_like "API Authenticable"
 
     context 'autorized' do
       let(:access_token) { create :access_token }
@@ -49,14 +39,20 @@ describe 'Questions API' do
         end
       end
     end
+
+    def do_request(options = {})
+      get '/api/v1/questions', {format: :json}.merge(options)
+    end
   end
 
   describe 'GET #show' do
     let(:access_token) { create :access_token }
-    let(:question)     { create :question }
+    let!(:question)     { create :question }
     let(:user)         { create :user }
     let!(:comments)     { create_list :comment, 3, commentable: question, user: user }
     let!(:files)        { create_list :attachment, 3, attachmentable: question }
+
+    it_behaves_like "API Authenticable"
 
     before { get "/api/v1/questions/#{question.id}", format: :json, access_token: access_token.token }
 
@@ -91,11 +87,17 @@ describe 'Questions API' do
         expect(response.body).to be_json_eql(question.attachments.first.file.url.to_json).at_path("question/attachments/0/file_url")
       end
     end
+
+    def do_request(options = {})
+      get "/api/v1/questions/#{question.id}", {format: :json}.merge(options)
+    end
   end
 
   describe 'POST #create' do
     let(:access_token) { create :access_token }
     let!(:question)     { attributes_for(:question) }
+
+    it_behaves_like "API Authenticable"
 
     it 'create new question' do
       expect{ post "/api/v1/questions", question: question, access_token: access_token.token, format: :json }
@@ -112,6 +114,10 @@ describe 'Questions API' do
       it "contains #{attr}" do
         expect(response.body).to be_json_eql(assigns(:question)[attr].to_json).at_path("question/#{attr}")
       end
+    end
+
+    def do_request(options = {})
+      post "/api/v1/questions", {format: :json}.merge(options)
     end
   end
 end

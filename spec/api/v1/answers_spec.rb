@@ -6,8 +6,9 @@ describe 'Answers API' do
   let!(:answers) { create_list :answer, 3, question: question }
 
   describe 'GET /index' do
-    context 'autorized' do
+    it_behaves_like 'API Authenticable'
 
+    context 'autorized' do
       before { get "/api/v1/questions/#{question.id}/answers", format: :json, access_token: access_token.token }
 
       it 'returns 200 status' do
@@ -24,6 +25,10 @@ describe 'Answers API' do
         end
       end
     end
+
+    def do_request(options = {})
+      get "/api/v1/questions/#{question.id}", {format: :json}.merge(options)
+    end
   end
 
   describe 'GET #show' do
@@ -31,6 +36,8 @@ describe 'Answers API' do
     let(:answer)       { answers.first }
     let!(:comments)    { create_list :comment, 3, commentable: answer, user: user }
     let!(:files)       { create_list :attachment, 3, attachmentable: answer }
+
+    it_behaves_like 'API Authenticable'
 
     before { get "/api/v1/questions/#{question.id}/answers/#{answer.id}", format: :json, access_token: access_token.token }
 
@@ -65,6 +72,10 @@ describe 'Answers API' do
         expect(response.body).to be_json_eql(answer.attachments.first.file.url.to_json).at_path("answer/attachments/0/file_url")
       end
     end
+
+    def do_request(options = {})
+      get "/api/v1/questions/#{question.id}/answers/#{answer.id}", {format: :json}.merge(options)
+    end
   end
 
   describe 'POST #create' do
@@ -72,12 +83,14 @@ describe 'Answers API' do
     let(:question)     { create :question }
     let(:answer)       { attributes_for :answer }
 
-    it 'create new question' do
-      expect{ post "/api/v1/questions/#{question.id}/answers", answer: answer, format: :json, access_token: access_token.token }
-          .to change(Answer, :count)
-    end
+    it_behaves_like 'API Authenticable'
 
     before { post "/api/v1/questions/#{question.id}/answers", answer: answer, format: :json, access_token: access_token.token }
+
+    #it 'create new question' do
+    #  вот тут как быть?
+    #  expect().to change(Answer, :count)
+    #end
 
     it 'returns 200 status' do
       expect(response).to be_success
@@ -87,6 +100,10 @@ describe 'Answers API' do
       it "contains #{attr}" do
         expect(response.body).to be_json_eql(assigns(:answer)[attr].to_json).at_path("answer/#{attr}")
       end
+    end
+
+    def do_request(options = {})
+      get "/api/v1/questions/#{question.id}/answers", {format: :json}.merge(options)
     end
   end
 
