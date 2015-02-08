@@ -8,11 +8,25 @@ class Answer < ActiveRecord::Base
 
   before_update :check_best
 
+
+  # TODO переписать на обычный scope
   default_scope { preload(:attachments).order('is_best desc, created_at') }
 
   validates :body, presence: true
 
   accepts_nested_attributes_for :attachments
+
+
+  scope :for_notification, -> {
+    includes(question: :author)
+    .where('answers.question_notificated = false
+            AND answers.created_at > users.last_sign_in_at')
+    .group_by('questions.id')
+  }
+
+  def question_notificated!
+    update(question_notificated: true)
+  end
 
   private
 

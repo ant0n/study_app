@@ -64,6 +64,11 @@ gem 'carrierwave'
 gem 'remotipart'
 gem 'nested_form', git: 'git://github.com/ryanb/nested_form.git'
 
+# delayed jobs
+gem 'sidekiq'
+gem 'sinatra', '>= 1.3.0', require: nil
+gem 'sidetiq'
+
 group :test, :development do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
@@ -89,4 +94,3 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
-
