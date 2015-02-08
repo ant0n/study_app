@@ -12,7 +12,7 @@ class AnswerWorker
 
   # ответы сгруппированы по вопросам
   def perform(name, count)
-    Answer.for_notifications.each do |answers|
+    Answer.for_notification.each do |answers|
       DailyMailer.delay.answer_notification(answers)
       answers.each(&:question_notificated!)
     end
