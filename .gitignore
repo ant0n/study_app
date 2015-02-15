@@ -18,6 +18,8 @@
 
 /doc/examples
 config/database.yml
+config/*.sphinx.conf
+db/sphinx
 
 # Ignore uploaded files
 /public/system

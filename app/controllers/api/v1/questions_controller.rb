@@ -1,5 +1,4 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
-  protect_from_forgery with: :null_session, only: Proc.new { |c| c.request.format.json? }
   #serialization_scope :view_context
 
   def index

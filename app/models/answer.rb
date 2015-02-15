@@ -6,11 +6,11 @@ class Answer < ActiveRecord::Base
   has_many :comments, as: :commentable
   has_many :attachments, -> { order created_at: :desc }, as: :attachmentable
 
+  after_create :send_notification
+
   before_update :check_best
 
-
-  # TODO переписать на обычный scope
-  default_scope { preload(:attachments).order('is_best desc, created_at') }
+  scope :with_attachments, -> { preload(:attachments).order('is_best desc, created_at') }
 
   validates :body, presence: true
 
@@ -18,10 +18,8 @@ class Answer < ActiveRecord::Base
 
 
   scope :for_notification, -> {
-    includes(question: :author)
-    .where('answers.question_notificated = false
-            AND answers.created_at > users.last_sign_in_at')
-    .group_by('questions.id')
+    joins(question: :author)
+    .where('answers.question_notificated = false AND answers.created_at > users.last_sign_in_at')
   }
 
   def question_notificated!
@@ -34,5 +32,10 @@ class Answer < ActiveRecord::Base
       if is_best != is_best_was
         self.question.answers.where(is_best: true).update_all(is_best: false)
       end
+    end
+
+    def send_notification
+      user_ids = question.notifications.map(&:user_id)
+      QuestionWorker.perform_async(user_ids, self)
     end
 end

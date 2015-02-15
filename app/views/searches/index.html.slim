@@ -1,0 +1,22 @@
+.row
+  .col-lg-4
+    = form_for :search, remote: :true do |f|
+      = f.fields_for :type do |t|
+        label.checkbox-inline
+          = t.check_box :all, { checked: true }
+          | Везде
+        label.checkbox-inline
+          = t.check_box :answer
+          | Ответы
+        label.checkbox-inline
+          = t.check_box :question
+          | Вопросы
+        label.checkbox-inline
+          = t.check_box :comment
+          | Комментарии
+      .input-group
+        span.input-group-btn
+          = f.submit class: 'btn btn-default', value: 'Go!'
+        = f.text_field :q, class: 'form-control', placeholder: 'Search for...'
+.row.result
+  .col-lg-12

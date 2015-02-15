@@ -15,6 +15,13 @@ class DailyMailer < ApplicationMailer
     question = answers[0].question
     author   = question.author
 
-    mail to: author.email, subject: "New answers for question: #{truncate(question.title, length: 15)}"
+    mail to: author.email, subject: "New answers for question: #{view_context.truncate(question.title, length: 15)}"
+  end
+
+  def question_notification(user, answer)
+    @user     = user
+    @answer   = answer
+
+    mail to: @user.email, subject: "New answers for question"
   end
 end

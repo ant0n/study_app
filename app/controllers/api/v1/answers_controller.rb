@@ -1,5 +1,4 @@
 class Api::V1::AnswersController < Api::V1::BaseController
-  protect_from_forgery with: :null_session, only: Proc.new { |c| c.request.format.json? }
 
   def index
     @question = Question.find params[:question_id]

@@ -190,4 +190,33 @@ RSpec.describe QuestionsController, :type => :controller do
       expect{ delete :destroy, id: question2 }.to raise_error(Pundit::NotAuthorizedError)
     end
   end
+
+  describe 'POST #subscribe' do
+    let!(:user)     { create :user }
+    let!(:question) { create(:question, author: user) }
+
+    it 'respond status ok' do
+      post :subscribe, id: question
+      expect(response).to be_success
+    end
+
+    it 'redirects to question path' do
+      expect{ post :subscribe, id: question }.to change(Notification, :count).by(1)
+    end
+  end
+
+  describe 'POST #unsubscribe' do
+    let!(:user)     { create :user }
+    let!(:question) { create(:question, author: user) }
+    let!(:notification) { create :notification, question: question, user: @user}
+
+    it 'respond status ok' do
+      post :unsubscribe, id: question, format: :js
+      expect(response).to be_success
+    end
+
+    it 'redirects to question path' do
+      expect{ post :unsubscribe, id: question, format: :js }.to change(Notification, :count).by(-1)
+    end
+  end
 end

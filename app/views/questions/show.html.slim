@@ -15,9 +15,15 @@ div.question
 
       =link_to 'Add comment', new_question_comment_path(@question), remote: true
 
-      - if @question.author == current_user
-        p.action= link_to 'Edit', edit_question_path(@question)
-
+      - if current_user
+        p.action
+          - if @question.author == current_user
+            = link_to 'Edit', edit_question_path(@question)
+          - else
+            -if current_user.subscribed?(@question)
+              = link_to 'Отписаться', unsubscribe_question_path(@question), id: "#subscribtion", remote: true, method: :post
+            -else
+              = link_to 'Подписаться', subscribe_question_path(@question), id: "#subscribtion", remote: true, method: :post
 
 div.answers
   = render @question.answers

@@ -1,0 +1,7 @@
+<% if @notification.errors.present? %>
+    alert("Произошла ошибка: #{@notification.errors.full_messages}");
+<% else %>
+    var $link = $('#subscribtion');
+    $link.text('Отписаться');
+    $link.attr('href', "#{unsubscribe_question_path(@notification.question_id}");
+<% end %>

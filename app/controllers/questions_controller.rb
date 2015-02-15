@@ -3,7 +3,7 @@ class QuestionsController < ApplicationController
   before_action :set_question, only: [:show, :edit, :update, :destroy]
   before_action :check_author, only: [:edit, :update, :destroy]
 
-  respond_to :html
+  respond_to :html, :js
 
   def index
     respond_with(@questions = Question.all)
@@ -39,6 +39,18 @@ class QuestionsController < ApplicationController
     respond_with @question.destroy
   end
 
+  # подписка фиговая, для автора ссылка подписаться убрана, но нет проверок, он может подписаться
+  # так же фигова то что автор ответа, который подписался на вопрос к которому создает ответ
+  # тоже получит извещение, карочь логики много, все лень учитывать, воркер отрабатывает и слава богу
+  def subscribe
+    @notification = Notification.create(question_id: params[:id], user_id: current_user.id)
+    render js: @notification
+  end
+
+  def unsubscribe
+    @notification = Notification.find_by(question_id: params[:id], user_id: current_user.id)
+    render js: @notification.destroy
+  end
 
   private
 

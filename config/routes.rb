@@ -1,6 +1,10 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  get 'searches/index'
+
+  get 'searches/show'
+
   authenticate :user, lambda {|u| u.admin? } do
     mount Sidekiq::Web => '/sidekiq'
   end
@@ -15,6 +19,8 @@ Rails.application.routes.draw do
   end
 
   resources :questions, concerns: :commentable do
+    post :subscribe,   on: :member
+    post :unsubscribe, on: :member
     resources :answers,
               except:   [:index, :show, :new],
               concerns: :commentable,
@@ -23,6 +29,9 @@ Rails.application.routes.draw do
       post 'set_best', on: :member
     end
   end
+
+  resources :searches, only: [:index]
+  post 'searches/index', to: 'searches#show'
 
   namespace :api do
     namespace :v1 do

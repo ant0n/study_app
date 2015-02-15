@@ -3,4 +3,4 @@
     br There is a list of new answers:
   ul
     - @answers.each do |answer|
-      li= link_to truncate(answer.body, length: 30), "#{question_url(question)}#answer_#{answer.id}"
+      li= link_to truncate(answer.body, length: 30), "#{question_url(answer.question_id)}#answer_#{answer.id}"

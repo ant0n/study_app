@@ -1,0 +1,5 @@
+var html = '';
+<% @groups.each do |group, values| %>
+    html += '<%== show_result(group, values) %>';
+<% end %>
+$(".result > div").html(html);
