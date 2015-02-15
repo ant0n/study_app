@@ -19,6 +19,7 @@
 /doc/examples
 config/database.yml
 config/*.sphinx.conf
+config/private_pub.yml
 db/sphinx
 
 # Ignore uploaded files
