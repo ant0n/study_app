@@ -73,8 +73,12 @@ gem 'sidetiq'
 gem 'mysql2'
 gem 'thinking-sphinx'
 
+# env config
 gem 'dotenv'
 gem 'dotenv-deployment', require: 'dotenv/deployment'
+
+# assets precompile
+gem 'therubyracer'
 
 group :development do
   gem 'capistrano', require: false
