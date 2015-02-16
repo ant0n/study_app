@@ -8,7 +8,7 @@ set :repo_url, 'git@github.com:ant0n/study_app.git'
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, '/home/deploy/stydyapp'
+set :deploy_to, '/home/deploy/studyapp'
 set :deploy_user, 'deploy'
 
 # Default value for :scm is :git
@@ -53,43 +53,42 @@ namespace :deploy do
       # end
     end
   end
+  after :publishing, :restart
 
-  namespace :private_pub do
-    desc 'Start private_pub server'
-    task :start do
-      on roles(:app) do
-        within current_path do
-          with rails_env: fetch(:rails_env) do
-            execute :bundle, "exec thin -C config/private_pub_thin.yml start"
-          end
-        end
-      end
-    end
-
-    desc 'Stop private_pub server'
-    task :stop do
-      on roles(:app) do
-        within current_path do
-          with rails_env: fetch(:rails_env) do
-            execute :bundle, "exec thin -C config/private_pub_thin.yml stop"
-          end
-        end
-      end
-    end
-
-    desc 'Restart private_pub server'
-    task :restart do
-      on roles(:app) do
-        within current_path do
-          with rails_env: fetch(:rails_env) do
-            execute :bundle, "exec thin -C config/private_pub_thin.yml restart"
-          end
+end
+namespace :private_pub do
+  desc 'Start private_pub server'
+  task :start do
+    on roles(:app) do
+      within current_path do
+        with rails_env: fetch(:rails_env) do
+          execute :bundle, "exec thin -C config/private_pub_thin.yml start"
         end
       end
     end
   end
 
-  after 'deploy:restart', 'private_pub:restart'
-  after :publishing, :restart
+  desc 'Stop private_pub server'
+  task :stop do
+    on roles(:app) do
+      within current_path do
+        with rails_env: fetch(:rails_env) do
+          execute :bundle, "exec thin -C config/private_pub_thin.yml stop"
+        end
+      end
+    end
+  end
 
+  desc 'Restart private_pub server'
+  task :restart do
+    on roles(:app) do
+      within current_path do
+        with rails_env: fetch(:rails_env) do
+          execute :bundle, "exec thin -C config/private_pub_thin.yml restart"
+        end
+      end
+    end
+  end
 end
+after 'deploy:restart', 'private_pub:restart'
+
