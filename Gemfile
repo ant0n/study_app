@@ -65,6 +65,7 @@ gem 'remotipart'
 gem 'nested_form', git: 'git://github.com/ryanb/nested_form.git'
 
 # delayed jobs
+gem 'whenever'
 gem 'sidekiq'
 gem 'sinatra', '>= 1.3.0', require: nil
 gem 'sidetiq'
@@ -85,6 +86,8 @@ group :development do
   gem 'capistrano-bundler', require: false
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
+  gem 'capistrano-sidekiq', require: false
+  #gem 'capistrano-sphinx', require: false
 end
 
 group :test, :development do

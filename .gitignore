@@ -27,7 +27,6 @@ db/sphinx
 /public/tmp
 /public/uploads
 /public/spec
-/public/uploads
 
 # Mac OS files
 .DS_Store
