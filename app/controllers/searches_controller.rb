@@ -7,11 +7,12 @@ class SearchesController < ApplicationController
   def show
     query  = params[:search][:q]
     type   = params[:search][:type]
-    fields = type.select{|k,v| v=="1"}.map{|k,v| k.classify.constantize }
+    logger.info "YEEEEEESSSSSS? #{type[:all] == '1'}"
 
     if type[:all] == '1'
       @objects = ThinkingSphinx.search(query)
     else
+      fields = type.select{|k,v| v=="1"}.map{|k,v| k.classify.constantize }
       @objects = ThinkingSphinx.search(query, classes: fields)
     end
 

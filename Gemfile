@@ -87,6 +87,8 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
   gem 'capistrano-sidekiq', require: false
+  #gem 'capistrano-rails-console', require: false
+  #gem 'capistrano-thin', require: false
   #gem 'capistrano-sphinx', require: false
 end
 
