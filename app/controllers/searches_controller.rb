@@ -7,7 +7,6 @@ class SearchesController < ApplicationController
   def show
     query  = params[:search][:q]
     type   = params[:search][:type]
-    logger.info "YEEEEEESSSSSS? #{type[:all] == '1'}"
 
     if type[:all] == '1'
       @objects = ThinkingSphinx.search(query)
