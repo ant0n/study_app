@@ -1,37 +1,38 @@
-div.question
-  div.panel.panel-primary
-    div.panel-heading
-      h2.panel-title= @question.title
-    div.panel-body
-      p= @question.body
-      - if @question.attachments.present?
-        p Attachments:
-        ul
-          - @question.attachments.each do |a|
-            li= link_to a.file.identifier, a.file.url
-      - if @question.comments.any?
-        div.comments
-          = render @question.comments
+- cache @question do
+  div.question
+    div.panel.panel-primary
+      div.panel-heading
+        h2.panel-title= @question.title
+      div.panel-body
+        p= @question.body
+        - if @question.attachments.present?
+          p Attachments:
+          ul
+            - @question.attachments.each do |a|
+              li= link_to a.file.identifier, a.file.url
+        - if @question.comments.any?
+          div.comments
+            = render @question.comments
 
-      =link_to 'Add comment', new_question_comment_path(@question), remote: true
+        =link_to 'Add comment', new_question_comment_path(@question), remote: true
 
-      - if current_user
-        p.action
-          - if @question.author == current_user
-            = link_to 'Edit', edit_question_path(@question)
-          - else
-            -if current_user.subscribed?(@question)
-              = link_to 'Отписаться', unsubscribe_question_path(@question), id: "#subscribtion", remote: true, method: :post
-            -else
-              = link_to 'Подписаться', subscribe_question_path(@question), id: "#subscribtion", remote: true, method: :post
+        - if current_user
+          p.action
+            - if @question.author == current_user
+              = link_to 'Edit', edit_question_path(@question)
+            - else
+              -if current_user.subscribed?(@question)
+                = link_to 'Отписаться', unsubscribe_question_path(@question), id: "#subscribtion", remote: true, method: :post
+              -else
+                = link_to 'Подписаться', subscribe_question_path(@question), id: "#subscribtion", remote: true, method: :post
 
-div.answers
-  = render @question.answers
+  div.answers
+    = render @question.answers
 
-div.add_answer
-  =link_to 'Add answer', '#'
+  div.add_answer
+    =link_to 'Add answer', '#'
 
 
-= render partial: 'answers/form', locals: {question: @question, answer: @question.answers.build}
+  = render partial: 'answers/form', locals: {question: @question, answer: @question.answers.build}
 
 = subscribe_to question_answers_path(@question) if current_user

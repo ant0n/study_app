@@ -83,6 +83,12 @@ gem 'therubyracer'
 
 gem 'unicorn'
 
+#cache
+gem 'redis-rails'
+
+# observers
+gem 'rails-observers'
+
 group :development do
   gem 'capistrano', require: false
   gem 'capistrano-bundler', require: false
